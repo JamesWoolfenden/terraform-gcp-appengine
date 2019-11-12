@@ -1,3 +1,3 @@
 output "app" {
-    value=module.appengine.app
+  value = module.appengine.app
 }

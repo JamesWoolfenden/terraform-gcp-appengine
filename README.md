@@ -29,6 +29,12 @@ Add **module.appengine.tf** to your code:-
 | project | GCP Project | string | n/a | yes |
 | sourcezip | The Source zip file payload for app engine | string | n/a | yes |
 
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| app | Required for to publish Modules |
+
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 Check out these related projects.
