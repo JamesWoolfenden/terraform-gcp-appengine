@@ -24,7 +24,7 @@ Add **module.appengine.tf** to your code:-
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| app |  | map | n/a | yes |
+| app | A map of all the service properties | map | n/a | yes |
 | common\_tags | This is to help you add tags to your cloud objects | map | n/a | yes |
 | project | GCP Project | string | n/a | yes |
 | sourcezip | The Source zip file payload for app engine | string | n/a | yes |

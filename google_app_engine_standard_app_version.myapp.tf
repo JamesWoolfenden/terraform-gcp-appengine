@@ -23,7 +23,7 @@ resource "google_app_engine_standard_app_version" "myapp" {
 }
 
 resource "google_storage_bucket" "bucket" {
-  name = "${var.project}-${var.service}-static-content"
+  name = "${var.project}-${var.app["service"]}-static-content"
 }
 
 resource "google_storage_bucket_object" "object" {

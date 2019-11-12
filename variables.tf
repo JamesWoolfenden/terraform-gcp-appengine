@@ -9,7 +9,8 @@ variable "project" {
 }
 
 variable "app" {
-  type = map
+  description = "A map of all the service properties"
+  type        = map
 }
 
 variable "sourcezip" {
