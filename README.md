@@ -1,6 +1,6 @@
 [![Slalom][logo]](https://slalom.com)
 
-# terraform-gcp-appengine [![Build Status](https://api.travis-ci.com/JamesWoolfenden/terraform-gcp-bastion.svg?branch=master)](https://travis-ci.com/JamesWoolfenden/terraform-gcp-bastion) [![Latest Release](https://img.shields.io/github/release/JamesWoolfenden/terraform-gcp-appengine.svg)](https://github.com/JamesWoolfenden/terraform-gcp-appengine/releases/latest)
+# terraform-gcp-appengine [![Build Status](https://api.travis-ci.com/JamesWoolfenden/terraform-gcp-appengine.svg?branch=master)](https://travis-ci.com/JamesWoolfenden/terraform-gcp-appengine) [![Latest Release](https://img.shields.io/github/release/JamesWoolfenden/terraform-gcp-appengine.svg)](https://github.com/JamesWoolfenden/terraform-gcp-appengine/releases/latest)
 
 The working Appengine module and example.
 
@@ -45,13 +45,13 @@ Check out these related projects.
 
 **Got a question?**
 
-File a GitHub [issue](https://github.com/jameswoolfenden/terraform-aws-bastion/issues).
+File a GitHub [issue](https://github.com/jameswoolfenden/terraform-gcp-appengine/issues).
 
 ## Contributing
 
 ### Bug Reports & Feature Requests
 
-Please use the [issue tracker](https://github.com/jameswoolfenden/terraform-aws-bastion/issues) to report any bugs or file feature requests.
+Please use the [issue tracker](https://github.com/jameswoolfenden/terraform-gcp-appengine/issues) to report any bugs or file feature requests.
 
 ## Copyrights
 
@@ -91,11 +91,11 @@ under the License.
 [github]: https://github.com/jameswoolfenden
 [linkedin]: https://www.linkedin.com/company/slalom-consulting/
 [twitter]: https://twitter.com/Slalom
-[share_twitter]: https://twitter.com/intent/tweet/?text=terraform-aws-bastion&url=https://github.com/jameswoolfenden/terraform-aws-bastion
-[share_linkedin]: https://www.linkedin.com/shareArticle?mini=true&title=terraform-aws-bastion&url=https://github.com/jameswoolfenden/terraform-aws-bastion
-[share_reddit]: https://reddit.com/submit/?url=https://github.com/jameswoolfenden/terraform-aws-bastion
-[share_facebook]: https://facebook.com/sharer/sharer.php?u=https://github.com/jameswoolfenden/terraform-aws-bastion
-[share_email]: mailto:?subject=terraform-aws-bastion&body=https://github.com/jameswoolfenden/terraform-aws-bastion
+[share_twitter]: https://twitter.com/intent/tweet/?text=terraform-gcp-appengine&url=https://github.com/jameswoolfenden/terraform-gcp-appengine
+[share_linkedin]: https://www.linkedin.com/shareArticle?mini=true&title=terraform-gcp-appengine&url=https://github.com/jameswoolfenden/terraform-gcp-appengine
+[share_reddit]: https://reddit.com/submit/?url=https://github.com/jameswoolfenden/terraform-gcp-appengine
+[share_facebook]: https://facebook.com/sharer/sharer.php?u=https://github.com/jameswoolfenden/terraform-gcp-appengine
+[share_email]: mailto:?subject=terraform-gcp-appengine&body=https://github.com/jameswoolfenden/terraform-gcp-appengine
 
 Notes
 
