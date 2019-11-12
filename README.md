@@ -2,16 +2,16 @@
 
 # terraform-gcp-appengine [![Build Status](https://api.travis-ci.com/JamesWoolfenden/terraform-gcp-bastion.svg?branch=master)](https://travis-ci.com/JamesWoolfenden/terraform-gcp-bastion) [![Latest Release](https://img.shields.io/github/release/JamesWoolfenden/terraform-gcp-appengine.svg)](https://github.com/JamesWoolfenden/terraform-gcp-appengine/releases/latest)
 
-```cli
-gcloud components install app-engine-python
+The working Appengine module and example.
+
 ## Usage
 
 Add **module.appengine.tf** to your code:-
 
 ```terraform
 {
-    source="jameswoolfenden/gcp/appengine"
-    version="v0.0.1"
+    source      ="jameswoolfenden/appengine/gcp"
+    version     = "v0.0.1"
     common_tags = var.common_tags
     project     = var.project
     app         = var.app
@@ -98,6 +98,11 @@ under the License.
 [share_email]: mailto:?subject=terraform-aws-bastion&body=https://github.com/jameswoolfenden/terraform-aws-bastion
 
 Notes
+
+```cli
+gcloud components install app-engine-python
+```
+
 Example sourced from:
 
 ```cli
