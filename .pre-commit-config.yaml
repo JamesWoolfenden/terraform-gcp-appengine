@@ -1,4 +1,5 @@
 ---
+# yamllint disable rule:line-length
 repos:
   - repo: git://github.com/pre-commit/pre-commit-hooks
     rev: v2.4.0
@@ -15,11 +16,11 @@ repos:
       - id: forbid-tabs
         exclude_types: [python, javascript, dtd, markdown, makefile, xml]
         exclude: binary|\.bin$
-  - repo: git://github.com/kintoandar/pre-commit.git
+  - repo: git://github.com/kintoandar/pre-commit
     rev: v2.1.0
     hooks:
       - id: terraform_fmt
-  - repo: git://github.com/pre-commit/pre-commit-hooks.git
+  - repo: git://github.com/pre-commit/pre-commit-hooks
     rev: v2.4.0
     stages:
       - commit
