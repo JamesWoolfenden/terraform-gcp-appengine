@@ -2,7 +2,7 @@
 
 # terraform-gcp-appengine [![Build Status](https://github.com/JamesWoolfenden/terraform-gcp-appengine/workflows/Bump%20version/badge.svg?branch=master)](https://github.com/JamesWoolfenden/terraform-gcp-appengine) [![Latest Release](https://img.shields.io/github/release/JamesWoolfenden/terraform-gcp-appengine.svg)](https://github.com/JamesWoolfenden/terraform-gcp-appengine/releases/latest)
 
-A working Appengine module ewith example.
+A working Appengine module with example.
 
 ## Usage
 
@@ -37,6 +37,8 @@ Add **module.appengine.tf** to your code:-
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
+## Related Projects
+
 Check out these related projects.
 
 - [terraform-aws-codecommit](https://github.com/jameswoolfenden/terraform-aws-codebuild) - Storing ones code
@@ -55,7 +57,7 @@ Please use the [issue tracker](https://github.com/jameswoolfenden/terraform-gcp-
 
 ## Copyrights
 
-Copyright � 2019-2019 [Slalom, LLC](https://slalom.com)
+Copyright © 2019-2019 [Slalom, LLC](https://slalom.com)
 
 ## License
 
@@ -101,22 +103,11 @@ Notes
 
 ```cli
 gcloud components install app-engine-python
-```
-
 Example sourced from:
-
-```cli
 git clone https://github.com/GoogleCloudPlatform/python-docs-samples
-```
-
 .\appengine\standard\hello_world\
-
 gcloud app deploy .\app.yaml
-
 enable api
-
-```cli
 https://console.developers.google.com/apis/api/appengine.googleapis.com/overview?project=756760134552
-```
-
 Ensure you have adequate permission with App Engine.
+```
