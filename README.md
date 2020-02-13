@@ -20,20 +20,26 @@ Add **module.appengine.tf** to your code:-
 ```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+## Providers
+
+| Name | Version |
+|------|---------|
+| google | n/a |
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| app | A map of all the service properties | map | n/a | yes |
-| common\_tags | This is to help you add tags to your cloud objects | map | n/a | yes |
-| project | GCP Project | string | n/a | yes |
-| sourcezip | The Source zip file payload for app engine | string | n/a | yes |
+|------|-------------|------|---------|:-----:|
+| app | A map of all the service properties | `map` | n/a | yes |
+| common\_tags | This is to help you add tags to your cloud objects | `map` | n/a | yes |
+| project | GCP Project | `string` | n/a | yes |
+| sourcezip | The Source zip file payload for app engine | `string` | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| app | Required for to publish Modules |
+| app | n/a |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
@@ -57,7 +63,7 @@ Please use the [issue tracker](https://github.com/jameswoolfenden/terraform-gcp-
 
 ## Copyrights
 
-Copyright © 2019-2019 [Slalom, LLC](https://slalom.com)
+Copyright © 2019-2020 [Slalom, LLC](https://slalom.com)
 
 ## License
 

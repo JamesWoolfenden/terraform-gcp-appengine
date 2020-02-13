@@ -21,13 +21,3 @@ resource "google_app_engine_standard_app_version" "myapp" {
 
   noop_on_destroy = false
 }
-
-resource "google_storage_bucket" "bucket" {
-  name = "${var.project}-${var.app["service"]}-static-content"
-}
-
-resource "google_storage_bucket_object" "object" {
-  name   = basename(var.sourcezip)
-  bucket = google_storage_bucket.bucket.name
-  source = var.sourcezip
-}
