@@ -1,6 +1,9 @@
 [![Slalom][logo]](https://slalom.com)
 
-# terraform-gcp-appengine [![Build Status](https://github.com/JamesWoolfenden/terraform-gcp-appengine/workflows/Bump%20version/badge.svg?branch=master)](https://github.com/JamesWoolfenden/terraform-gcp-appengine) [![Latest Release](https://img.shields.io/github/release/JamesWoolfenden/terraform-gcp-appengine.svg)](https://github.com/JamesWoolfenden/terraform-gcp-appengine/releases/latest)
+# terraform-gcp-appengine
+
+[![Build Status](https://github.com/JamesWoolfenden/terraform-gcp-appengine/workflows/Bump%20version/badge.svg?branch=master)](https://github.com/JamesWoolfenden/terraform-gcp-appengine)
+[![Latest Release](https://img.shields.io/github/release/JamesWoolfenden/terraform-gcp-appengine.svg)](https://github.com/JamesWoolfenden/terraform-gcp-appengine/releases/latest)
 
 A working Appengine module with example.
 
