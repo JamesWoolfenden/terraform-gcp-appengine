@@ -3,7 +3,6 @@ resource "google_storage_bucket" "bucket" {
   encryption {
     default_kms_key_name = ""
   }
-  bucket_policy_only = true
 }
 
 resource "google_storage_bucket_object" "object" {
