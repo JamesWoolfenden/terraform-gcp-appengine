@@ -25,6 +25,9 @@ build: init
 lock:
 	@$(TERRAFORM) apply -target module.statebucket.aws_dynamodb_table.dynamodb-state-lock -auto-approve
 
+valid:
+	terraform fmt -check=true -diff=true
+	checkov -d . --external-checks-dir ../../checkov
 
 first: terraform/init lock
 	@$(TERRAFORM) apply -target module.statebucket.google_storage_bucket.statebucket -auto-approve
