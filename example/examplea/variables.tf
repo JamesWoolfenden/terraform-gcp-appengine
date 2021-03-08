@@ -1,6 +1,6 @@
 variable "common_tags" {
   description = "This is to help you add tags to your cloud objects"
-  type        = map
+  type        = map(any)
 }
 
 variable "project" {
@@ -8,7 +8,7 @@ variable "project" {
 }
 
 variable "app" {
-  type = map
+  type = map(any)
 }
 
 variable "sourcezip" {

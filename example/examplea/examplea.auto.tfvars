@@ -1,6 +1,6 @@
 common_tags = {
-"createdby" = "Terraform" }
-
+  createdby = "terraform"
+module = "terraform-gcp-appengine" }
 project = "examplea"
 app = {
   runtime             = "python27"
