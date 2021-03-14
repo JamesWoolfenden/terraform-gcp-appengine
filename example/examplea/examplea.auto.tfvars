@@ -3,10 +3,10 @@ common_tags = {
 module = "terraform-gcp-appengine" }
 project = "examplea"
 app = {
-  runtime             = "python27"
+  runtime             = "python37"
   service             = "hello"
   runtime_api_version = "1"
-  version_id          = "v1"
+  version_id          = "v2"
   url_regex           = "/.*"
   script_path         = "main.app"
 }

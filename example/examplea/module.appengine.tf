@@ -4,5 +4,4 @@ module "appengine" {
   project       = var.project
   app           = var.app
   sourcezip     = var.sourcezip
-  kms_key       = google_kms_crypto_key.examplea-key
 }

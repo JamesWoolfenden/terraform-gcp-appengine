@@ -10,7 +10,7 @@
 [![Infrastructure Tests](https://www.bridgecrew.cloud/badges/github/jameswoolfenden/terraform-gcp-appengine/general)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=JamesWoolfenden%2Fterraform-gcp-appengine&benchmark=INFRASTRUCTURE+SECURITY)
 [![Infrastructure Tests](https://www.bridgecrew.cloud/badges/github/jameswoolfenden/terraform-gcp-appengine/cis_gcp)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=JamesWoolfenden%2Fterraform-gcp-appengine&benchmark=CIS+GCP+V1.1)
 
-A working Appengine module with example.
+A working AppEngine module with example.
 
 ## Usage
 
@@ -56,7 +56,6 @@ No Modules.
 |------|-------------|------|---------|:--------:|
 | app | A map of all the service properties | `map(any)` | n/a | yes |
 | common\_labels | This is to help you add tags to your cloud objects | `map(any)` | n/a | yes |
-| kms\_key | n/a | `any` | n/a | yes |
 | project | GCP Project | `string` | n/a | yes |
 | sourcezip | The Source zip file payload for app engine | `string` | n/a | yes |
 | storage\_class | n/a | `string` | `"STANDARD"` | no |

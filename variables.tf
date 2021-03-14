@@ -18,4 +18,17 @@ variable "sourcezip" {
   description = "The Source zip file payload for app engine"
 }
 
-variable "kms_key" {}
+
+variable "storage_class" {
+  default = "STANDARD"
+  validation {
+    condition     = can(regex("STANDARD|MULTI_REGIONAL|REGIONAL|NEARLINE|COLDLINE|ARCHIVE", var.storage_class))
+    error_message = "Supported values include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE."
+  }
+}
+
+variable "versioning" {
+  type        = bool
+  description = "Switch for versioning"
+  default     = true
+}
