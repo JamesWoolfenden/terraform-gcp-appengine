@@ -1,4 +1,4 @@
-resource "google_app_engine_standard_app_version" "myapp" {
+resource "google_app_engine_standard_app_version" "examplea" {
 
   handlers {
     url_regex = var.app["url_regex"]

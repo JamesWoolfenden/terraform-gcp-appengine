@@ -55,9 +55,12 @@ No Modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | app | A map of all the service properties | `map(any)` | n/a | yes |
-| common\_tags | This is to help you add tags to your cloud objects | `map(any)` | n/a | yes |
+| common\_labels | This is to help you add tags to your cloud objects | `map(any)` | n/a | yes |
+| kms\_key | n/a | `any` | n/a | yes |
 | project | GCP Project | `string` | n/a | yes |
 | sourcezip | The Source zip file payload for app engine | `string` | n/a | yes |
+| storage\_class | n/a | `string` | `"STANDARD"` | no |
+| versioning | Switch for versioning | `bool` | `true` | no |
 
 ## Outputs
 

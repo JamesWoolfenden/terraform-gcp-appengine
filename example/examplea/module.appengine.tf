@@ -1,7 +1,8 @@
 module "appengine" {
-  source      = "../../"
-  common_tags = var.common_tags
-  project     = var.project
-  app         = var.app
-  sourcezip   = var.sourcezip
+  source        = "../../"
+  common_labels = var.common_tags
+  project       = var.project
+  app           = var.app
+  sourcezip     = var.sourcezip
+  kms_key       = google_kms_crypto_key.examplea-key
 }
