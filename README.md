@@ -19,7 +19,7 @@ Add **module.appengine.tf** to your code:-
 ```terraform
 {
     source      ="jameswoolfenden/appengine/gcp"
-    version     = "0.0.4"
+    version     = "0.1.1"
     common_tags = var.common_tags
     project     = var.project
     app         = var.app
