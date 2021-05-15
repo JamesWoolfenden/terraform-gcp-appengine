@@ -1,2 +1,13 @@
 version: 0.1
 resource_usage:
+  module.appengine.google_storage_bucket.bucket:
+    monthly_class_a_operations: 0
+    monthly_class_b_operations: 0
+    monthly_data_retrieval_gb: 0
+    monthly_egress_data_transfer_gb:
+      asia: 0
+      australia: 0
+      china: 0
+      same_continent: 0
+      worldwide: 0
+    storage_gb: 0
