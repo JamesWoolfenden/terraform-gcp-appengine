@@ -17,7 +17,7 @@ A working AppEngine module with example.
 Add **module.appengine.tf** to your code:-
 
 ```terraform
-{
+module "appengine" {
     source      ="jameswoolfenden/appengine/gcp"
     version     = "0.1.1"
     common_tags = var.common_tags
