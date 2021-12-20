@@ -56,6 +56,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_app"></a> [app](#input\_app) | A map of all the service properties | `map(any)` | n/a | yes |
 | <a name="input_common_labels"></a> [common\_labels](#input\_common\_labels) | This is to help you add tags to your cloud objects | `map(any)` | n/a | yes |
+| <a name="input_location"></a> [location](#input\_location) | n/a | `string` | `"eu"` | no |
 | <a name="input_project"></a> [project](#input\_project) | GCP Project | `string` | n/a | yes |
 | <a name="input_sourcezip"></a> [sourcezip](#input\_sourcezip) | The Source zip file payload for app engine | `string` | n/a | yes |
 | <a name="input_storage_class"></a> [storage\_class](#input\_storage\_class) | n/a | `string` | `"STANDARD"` | no |
