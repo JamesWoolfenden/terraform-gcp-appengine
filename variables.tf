@@ -32,3 +32,8 @@ variable "versioning" {
   description = "Switch for versioning"
   default     = true
 }
+
+variable "location" {
+  type    = string
+  default = "eu"
+}

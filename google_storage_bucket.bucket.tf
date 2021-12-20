@@ -1,7 +1,7 @@
 resource "google_storage_bucket" "bucket" {
   #checkov:skip= CKV_GCP_62
-  name = local.bucket_name
-
+  name                        = local.bucket_name
+  location                    = var.location
   uniform_bucket_level_access = true
   force_destroy               = true
 
