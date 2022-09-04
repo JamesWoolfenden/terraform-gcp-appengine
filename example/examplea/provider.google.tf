@@ -1,3 +1,2 @@
 provider "google" {
-  project = "pike"
 }
