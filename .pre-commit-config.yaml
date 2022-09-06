@@ -48,7 +48,7 @@ repos:
       - id: tf2docs
         language_version: python3.8
   - repo: https://github.com/bridgecrewio/checkov
-    rev: 2.1.182
+    rev: 2.1.186
     hooks:
       - id: checkov
         verbose: true
