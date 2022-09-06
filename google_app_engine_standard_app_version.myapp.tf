@@ -8,7 +8,7 @@ resource "google_app_engine_standard_app_version" "examplea" {
   }
 
   entrypoint {
-    shell = "python3 ./main.py"
+    shell = var.entrypoint
   }
 
   deployment {

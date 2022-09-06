@@ -37,3 +37,9 @@ variable "location" {
   type    = string
   default = "eu"
 }
+
+variable "entrypoint" {
+  type        = string
+  description = "app entrypoint"
+  default     = "python3 ./main.py"
+}
