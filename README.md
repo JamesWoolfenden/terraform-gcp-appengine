@@ -1,6 +1,6 @@
 # terraform-gcp-appengine
 
-[![Build Status](https://github.com/JamesWoolfenden/terraform-gcp-appengine/workflows/Bump%20version/badge.svg?branch=master)](https://github.com/JamesWoolfenden/terraform-gcp-appengine)
+[![Build Status](https://github.com/JamesWoolfenden/terraform-gcp-appengine/workflows/Verify/badge.svg?branch=master)](https://github.com/JamesWoolfenden/terraform-gcp-appengine)
 [![Latest Release](https://img.shields.io/github/release/JamesWoolfenden/terraform-gcp-appengine.svg)](https://github.com/JamesWoolfenden/terraform-gcp-appengine/releases/latest)
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/JamesWoolfenden/terraform-gcp-appengine.svg?label=latest)](https://github.com/JamesWoolfenden/terraform-gcp-appengine/releases/latest)
 ![Terraform Version](https://img.shields.io/badge/tf-%3E%3D0.14.0-blue.svg)
