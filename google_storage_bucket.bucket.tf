@@ -9,8 +9,9 @@ resource "google_storage_bucket" "bucket" {
     enabled = var.versioning
   }
 
-  storage_class = var.storage_class
-  labels        = var.common_labels
+  storage_class            = var.storage_class
+  labels                   = var.common_labels
+  public_access_prevention = "enforced"
 }
 
 resource "google_storage_bucket_object" "object" {
