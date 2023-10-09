@@ -52,8 +52,7 @@ jobs:
         with:
           python-version: 3.11
       - run: |
-          pip3 install lastversion
-          lastversion terraform-docs --assets -d --verbose
+          wget https://github.com/terraform-docs/terraform-docs/releases/download/v0.16.0/terraform-docs-v0.16.0-linux-amd64.tar.gz
           mkdir "$GITHUB_WORKSPACE/bin"
           tar -xvf terraform-docs*.tar.gz --directory "$GITHUB_WORKSPACE/bin"
           chmod +x "$GITHUB_WORKSPACE/bin/terraform-docs"
