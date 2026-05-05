@@ -78,7 +78,7 @@ The Terraform resource required is:
 ```golang
 
 resource "google_project_iam_custom_role" "terraform_pike" {
-  project     = "pike"
+  project     = "pike-477416"
   role_id     = "terraform_pike"
   title       = "terraform_pike"
   description = "A user with least privileges"
@@ -89,7 +89,8 @@ resource "google_project_iam_custom_role" "terraform_pike" {
     "storage.buckets.update",
     "storage.objects.create",
     "storage.objects.delete",
-    "storage.objects.get"
+    "storage.objects.get",
+    "storage.objects.list"
   ]
 }
 
