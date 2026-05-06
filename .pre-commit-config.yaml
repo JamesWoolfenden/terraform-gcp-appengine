@@ -50,8 +50,12 @@ repos:
     hooks:
       - id: pike-docs-go
         args: ["readme","-d", ".", "-i"]
+  - repo: https://github.com/rhysd/actionlint
+    rev: 914e7df21a07ef503a81201c76d2b11c789d3fca # v1.7.12
+    hooks:
+      - id: actionlint
   - repo: https://github.com/jameswoolfenden/ghat
     rev: c037c5f7bbc8670607523ea6a7aefd978fc0bd7d # v0.1.27
     hooks:
       - id: ghat-go
-        args: ["swot","-d", "."]
+      - id: ghat-go-sift
