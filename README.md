@@ -33,7 +33,7 @@ No requirements.
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="provider_google"></a> [google](#provider\_google) | n/a |
 
 ## Modules
@@ -43,7 +43,7 @@ No modules.
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [google_app_engine_standard_app_version.examplea](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/app_engine_standard_app_version) | resource |
 | [google_storage_bucket.bucket](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket) | resource |
 | [google_storage_bucket_object.object](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket_object) | resource |
@@ -51,7 +51,7 @@ No modules.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_app"></a> [app](#input\_app) | A map of all the service properties | `map(any)` | n/a | yes |
 | <a name="input_common_labels"></a> [common\_labels](#input\_common\_labels) | This is to help you add tags to your cloud objects | `map(any)` | n/a | yes |
 | <a name="input_entrypoint"></a> [entrypoint](#input\_entrypoint) | app entrypoint | `string` | `"python3 ./main.py"` | no |
@@ -64,7 +64,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_app"></a> [app](#output\_app) | n/a |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
