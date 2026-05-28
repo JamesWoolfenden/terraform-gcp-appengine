@@ -1,6 +1,7 @@
-common_tags = {
+common_labels = {
   createdby = "terraform"
-module = "terraform-gcp-appengine" }
+  module    = "terraform-gcp-appengine"
+}
 project = "pike"
 app = {
   runtime             = "python37"
@@ -10,4 +11,4 @@ app = {
   url_regex           = "/.*"
   script_path         = "main.app"
 }
-sourcezip = "./code/main_test.zip"
+source_zip = "./code/main_test.zip"

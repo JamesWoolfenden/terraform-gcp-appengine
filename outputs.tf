@@ -1,3 +1,4 @@
 output "app" {
-  value = google_app_engine_standard_app_version.examplea
+  value       = google_app_engine_standard_app_version.examplea
+  description = "The App Engine application"
 }

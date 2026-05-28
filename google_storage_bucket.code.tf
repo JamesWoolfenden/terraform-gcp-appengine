@@ -1,4 +1,4 @@
-resource "google_storage_bucket" "bucket" {
+resource "google_storage_bucket" "code" {
   #checkov:skip= CKV_GCP_62
   name                        = local.bucket_name
   location                    = var.location
@@ -14,8 +14,8 @@ resource "google_storage_bucket" "bucket" {
   public_access_prevention = "enforced"
 }
 
-resource "google_storage_bucket_object" "object" {
+resource "google_storage_bucket_object" "code_package" {
   name   = basename(var.sourcezip)
-  bucket = google_storage_bucket.bucket.name
+  bucket = google_storage_bucket.code.name
   source = var.sourcezip
 }

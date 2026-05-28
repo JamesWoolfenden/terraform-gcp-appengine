@@ -43,14 +43,14 @@ repos:
     -   id: tf2docs
         language_version: python3.11
 -   repo: https://github.com/bridgecrewio/checkov
-    rev: e52a901a3829d818d20c9b75e544845c8b756968 # 3.2.526
+    rev: 50aa413a42dee68ddafcb02b67d32770b322845c # 3.2.529
     hooks:
     -   id: checkov
         files: .
         verbose: true
         entry: checkov -d example/examplea --external-checks-dir checkov --download-external-modules true --compact
 -   repo: https://github.com/jameswoolfenden/pike
-    rev: 4b5670a3254572b7853ebeb4c66718f2e6e09c51 # v0.4.3
+    rev: 4ce4b7087eee510c1ca1ad8250d3e9e5969363f8 # v0.4.7
     hooks:
     -   id: pike-docs-go
         args: ["readme","-d", ".", "-i"]
@@ -59,7 +59,7 @@ repos:
     hooks:
       - id: actionlint
 -   repo: https://github.com/jameswoolfenden/ghat
-    rev: 783f1adff1b67e121f0a3af745979b0ccab69e11 # v0.1.31
+    rev: 48669f9a4fb63222530338adc34008e365615ca2 # v0.1.33
     hooks:
     -   id: ghat-go
     -   id: ghat-go-sift
