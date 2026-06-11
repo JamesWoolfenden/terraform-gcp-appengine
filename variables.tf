@@ -1,12 +1,3 @@
-variable "common_labels" {
-  description = "This is to help you add tags to your cloud objects"
-  type        = map(any)
-  validation {
-    condition     = length(var.common_labels) > 0
-    error_message = "Common labels must not be empty."
-  }
-}
-
 variable "project" {
   description = "GCP Project"
   type        = string
@@ -44,15 +35,6 @@ variable "storage_class" {
   }
 }
 
-variable "versioning" {
-  type        = bool
-  description = "Switch for versioning"
-  default     = true
-  validation {
-    condition     = var.versioning == true || var.versioning == false
-    error_message = "Versioning must be a boolean value."
-  }
-}
 
 variable "location" {
   type        = string
@@ -71,5 +53,33 @@ variable "entrypoint" {
   validation {
     condition     = length(var.entrypoint) > 0
     error_message = "Entrypoint must not be empty."
+  }
+}
+
+variable "kms_key_name" {
+  type        = string
+  description = "The KMS key name for encryption"
+  validation {
+    condition     = length(var.kms_key_name) > 0
+    error_message = "KMS key name must not be empty."
+  }
+}
+
+variable "service_account" {
+  type        = string
+  description = "Email of the service account to run the App Engine version as; must not be the App Engine default SA"
+  validation {
+    condition     = length(var.service_account) > 0
+    error_message = "service_account must be a non-empty service account email."
+  }
+}
+
+variable "versioning" {
+  type        = bool
+  description = "Switch for versioning"
+  default     = true
+  validation {
+    condition     = var.versioning == true || var.versioning == false
+    error_message = "Versioning must be a boolean value."
   }
 }

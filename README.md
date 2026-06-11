@@ -46,6 +46,7 @@ No modules.
 | ---- | ---- |
 | [google_app_engine_standard_app_version.examplea](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/app_engine_standard_app_version) | resource |
 | [google_storage_bucket.code](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket) | resource |
+| [google_storage_bucket.logs](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket) | resource |
 | [google_storage_bucket_object.code_package](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket_object) | resource |
 
 ## Inputs
@@ -53,10 +54,11 @@ No modules.
 | Name | Description | Type | Default | Required |
 | ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_app"></a> [app](#input\_app) | A map of all the service properties | `map(any)` | n/a | yes |
-| <a name="input_common_labels"></a> [common\_labels](#input\_common\_labels) | This is to help you add tags to your cloud objects | `map(any)` | n/a | yes |
 | <a name="input_entrypoint"></a> [entrypoint](#input\_entrypoint) | app entrypoint | `string` | `"python3 ./main.py"` | no |
+| <a name="input_kms_key_name"></a> [kms\_key\_name](#input\_kms\_key\_name) | The KMS key name for encryption | `string` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | The location of the bucket | `string` | `"eu"` | no |
 | <a name="input_project"></a> [project](#input\_project) | GCP Project | `string` | n/a | yes |
+| <a name="input_service_account"></a> [service\_account](#input\_service\_account) | Email of the service account to run the App Engine version as; must not be the App Engine default SA | `string` | n/a | yes |
 | <a name="input_sourcezip"></a> [sourcezip](#input\_sourcezip) | The Source zip file payload for app engine | `string` | n/a | yes |
 | <a name="input_storage_class"></a> [storage\_class](#input\_storage\_class) | The Storage class of the bucket. Supported values include: STANDARD, MULTI\_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE. | `string` | `"STANDARD"` | no |
 | <a name="input_versioning"></a> [versioning](#input\_versioning) | Switch for versioning | `bool` | `true` | no |
@@ -66,6 +68,7 @@ No modules.
 | Name | Description |
 | ---- | ----------- |
 | <a name="output_app"></a> [app](#output\_app) | The App Engine application |
+| <a name="output_code"></a> [code](#output\_code) | The code package stored in Cloud Storage |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Role and Permissions

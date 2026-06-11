@@ -1,0 +1,49 @@
+{
+  "findings": [
+    {
+      "confidence": "high",
+      "explanation": "The resource omits service_account, so the version runs as PROJECT_ID@appspot.gserviceaccount.com (the App Engine default service account). In projects created before ~2019 this SA has the Editor primitive role at project level. HLD_GCP_189 only checks for the Compute Engine default SA, not the App Engine default SA, so this passes the engine. A dedicated least-privilege SA should be created and assigned just as HLD_PROPOSED_001 requires for Cloud Run.",
+      "file": "google_app_engine_standard_app_version.myapp.tf",
+      "id": "HOLDEN_AI_001",
+      "line": 1,
+      "principle": "identity-and-access",
+      "related_resources": [],
+      "remediation": "Add service_account = var.service_account to the resource and expose a service_account variable. In the example, create a google_service_account resource and pass its email.",
+      "resource": "google_app_engine_standard_app_version.examplea",
+      "severity": "HIGH",
+      "title": "App Engine standard version has no service_account \u2014 defaults to the App Engine default SA which carries project Editor in older projects"
+    },
+    {
+      "confidence": "high",
+      "explanation": "The handlers block sets url_regex and script_path but omits the login attribute, which defaults to LOGIN_OPTIONAL (no auth required). There is no google_app_engine_application resource in the module for HLD_GCP_190 (IAP must be enabled) to evaluate, so the check never fires. Any request reaching the App Engine URL is served without authentication \u2014 if the function is internal-only, callers from the public internet can invoke it.",
+      "file": "google_app_engine_standard_app_version.myapp.tf",
+      "id": "HOLDEN_AI_002",
+      "line": 3,
+      "principle": "network-security",
+      "related_resources": [],
+      "remediation": "For internal-only use, add login = \"LOGIN_REQUIRED\" or login = \"LOGIN_ADMIN\" to the handlers block. For external access with auth, create a google_app_engine_application resource with iap { enabled = true } and expose it through the module.",
+      "resource": "google_app_engine_standard_app_version.examplea",
+      "severity": "MEDIUM",
+      "title": "URL handler has no login requirement and no IAP \u2014 application is publicly accessible without authentication"
+    },
+    {
+      "confidence": "medium",
+      "explanation": "The example sets rotation_period = \"100000s\" which is approximately 27.8 hours. All other KMS keys in related modules (cloudrun, cloudfunction2) use 7776000s (90 days). An excessively short rotation period in a real deployment would trigger continuous re-encryption of all bucket objects and could exhaust KMS quota or cause unexpected failures. This appears to be an accidental value rather than intentional testdata configuration.",
+      "file": "example/examplea/module.appengine.tf",
+      "id": "HOLDEN_AI_003",
+      "line": 17,
+      "principle": "key-management",
+      "related_resources": [],
+      "remediation": "Change rotation_period to \"7776000s\" (90 days) to match the standard used across other modules in this repository.",
+      "resource": "google_kms_crypto_key.appengine_key",
+      "severity": "LOW",
+      "title": "KMS key rotation_period = 100000s (\u224828 hours) in example \u2014 far below the standard 90-day minimum, will cause excessive re-encryption"
+    }
+  ],
+  "suggested_policies": [
+    {
+      "rationale": "google_app_engine_standard_app_version has only one existing policy (HLD_GCP_189, Compute Engine default SA). The App Engine default SA (PROJECT_ID@appspot.gserviceaccount.com) is not the Compute Engine default SA and is not covered. In older GCP projects it holds the Editor primitive role. The same explicit-SA pattern has been codified for Cloud Run (HLD_PROPOSED_001), Cloud Run v2 jobs (HLD_GCP_264), Cloud Functions (HLD_GCP_179), Cloud Scheduler (HLD_GCP_266), and Cloud Workflows (HLD_GCP_267). Adding it for App Engine standard completes the coverage.",
+      "yaml": "id: HLD_PROPOSED_004\nname: App Engine standard versions must have an explicit service account configured\nprinciple: identity-and-access\nseverity: HIGH\nrationale: |\n  When service_account is omitted, the version runs as the App Engine default\n  service account (PROJECT_ID@appspot.gserviceaccount.com). In projects created\n  before 2019 this SA holds the Editor primitive role at project level, giving\n  the running application broad read/write access to all project resources.\n  A dedicated least-privilege service account should always be assigned\n  explicitly, consistent with the same requirement for Cloud Run, Cloud\n  Functions, and Cloud Workflows.\nremediation: |\n  Add an explicit service_account to the resource:\n  ```hcl\n  resource \"google_app_engine_standard_app_version\" \"app\" {\n    service_account = google_service_account.app.email\n    ...\n  }\n  ```\nresources:\n  google_app_engine_standard_app_version:\n    path: service_account\n    not_null: true\n"
+    }
+  ]
+}

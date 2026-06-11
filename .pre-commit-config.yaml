@@ -43,7 +43,7 @@ repos:
     -   id: tf2docs
         language_version: python3.11
 -   repo: https://github.com/bridgecrewio/checkov
-    rev: 062b60e4b299bc621f11a01a577274db0805e552 # 3.2.533
+    rev: 807eb133d5262412e1eda79c7495fd8145a59920 # 3.3.1
     hooks:
     -   id: checkov
         files: .

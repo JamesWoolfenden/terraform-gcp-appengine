@@ -1,12 +1,3 @@
-variable "common_labels" {
-  description = "This is to help you add labels to your cloud objects"
-  type        = map(any)
-  validation {
-    condition     = length(var.common_labels) > 0
-    error_message = "Common labels must not be empty."
-  }
-}
-
 variable "project" {
   type        = string
   description = "The GCP project ID"

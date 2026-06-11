@@ -1,7 +1,3 @@
-common_labels = {
-  createdby = "terraform"
-  module    = "terraform-gcp-appengine"
-}
 project = "pike"
 app = {
   runtime             = "python37"
