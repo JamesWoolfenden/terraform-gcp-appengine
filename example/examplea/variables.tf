@@ -24,3 +24,21 @@ variable "source_zip" {
     error_message = "Source zip file path must not be empty."
   }
 }
+
+variable "domain_name" {
+  type        = string
+  description = "Custom domain name mapped to the App Engine application"
+  validation {
+    condition     = length(var.domain_name) > 0
+    error_message = "Domain name must not be empty."
+  }
+}
+
+variable "allowed_source_range" {
+  type        = string
+  description = "CIDR range allowed to reach the App Engine application; all other traffic is denied"
+  validation {
+    condition     = length(var.allowed_source_range) > 0
+    error_message = "Allowed source range must not be empty."
+  }
+}

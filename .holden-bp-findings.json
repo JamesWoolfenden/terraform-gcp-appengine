@@ -1,0 +1,95 @@
+{
+  "findings": [
+    {
+      "confidence": "high",
+      "explanation": "example/examplea/examplea.auto.tfvars sets app.script_path = \"main.app\", implying that key configures the handler's script path. The resource instead hardcodes script_path = \"auto\" and never reads var.app[\"script_path\"], so any value a caller passes for that key is silently dropped. This is a dead-config trap: consumers reasonably believe setting the key does something.",
+      "file": "google_app_engine_standard_app_version.myapp.tf",
+      "first_seen": "2026-08-02",
+      "fix": "script_path = lookup(var.app, \"script_path\", \"auto\")",
+      "fixable": true,
+      "id": "HOLDEN_BP_001",
+      "last_seen": "2026-08-02",
+      "line": 7,
+      "principle": "maintainability",
+      "remediation": "Read the value from the map with a fallback: script_path = lookup(var.app, \"script_path\", \"auto\")",
+      "resource": "google_app_engine_standard_app_version.examplea",
+      "severity": "LOW",
+      "status": "open",
+      "title": "Handler script_path is hardcoded to \"auto\", silently ignoring var.app[\"script_path\"]"
+    },
+    {
+      "confidence": "high",
+      "explanation": "example/examplea/examplea.auto.tfvars sets app.runtime_api_version = \"1\", but the resource never reads var.app[\"runtime_api_version\"] even though google_app_engine_standard_app_version has a top-level runtime_api_version argument. Setting this key currently has zero effect on the deployed version, which will surprise anyone relying on it to pin a runtime API version.",
+      "file": "google_app_engine_standard_app_version.myapp.tf",
+      "first_seen": "2026-08-02",
+      "fix": "runtime_api_version = lookup(var.app, \"runtime_api_version\", null)",
+      "fixable": true,
+      "id": "HOLDEN_BP_002",
+      "last_seen": "2026-08-02",
+      "line": 22,
+      "principle": "maintainability",
+      "remediation": "Wire the key through: runtime_api_version = lookup(var.app, \"runtime_api_version\", null)",
+      "resource": "google_app_engine_standard_app_version.examplea",
+      "severity": "LOW",
+      "status": "open",
+      "title": "var.app[\"runtime_api_version\"] is documented by example tfvars but never consumed"
+    },
+    {
+      "confidence": "medium",
+      "explanation": "None of automatic_scaling, basic_scaling, or manual_scaling is set, so App Engine standard applies its platform default (automatic_scaling with min instances effectively 0 for scale-to-zero-eligible runtimes). That produces multi-second cold-start latency on the first request after idle, and because the module hardcodes no scaling block and exposes no variable for it, every consumer of this module inherits that behavior with no way to override it.",
+      "file": "google_app_engine_standard_app_version.myapp.tf",
+      "first_seen": "2026-08-02",
+      "fixable": false,
+      "id": "HOLDEN_BP_003",
+      "last_seen": "2026-08-02",
+      "line": 1,
+      "principle": "reliability",
+      "remediation": "Add an optional module variable (e.g. var.automatic_scaling / var.min_instances) and wire it into an automatic_scaling block on the resource, defaulting to today's implicit behavior if unset so this stays backward compatible.",
+      "resource": "google_app_engine_standard_app_version.examplea",
+      "severity": "LOW",
+      "status": "open",
+      "title": "App Engine standard version has no scaling block, so it can scale to zero with no way for callers to tune it"
+    },
+    {
+      "confidence": "medium",
+      "explanation": "Neither readiness_check nor liveness_check is configured. App Engine falls back to its own default health-check behavior, but the module gives consumers no way to tune check_interval/timeout/failure_threshold for their workload's startup time, which matters for services with slower boot paths than the platform default assumes.",
+      "file": "google_app_engine_standard_app_version.myapp.tf",
+      "first_seen": "2026-08-02",
+      "fixable": false,
+      "id": "HOLDEN_BP_004",
+      "last_seen": "2026-08-02",
+      "line": 1,
+      "principle": "reliability",
+      "remediation": "Expose readiness_check/liveness_check as optional module variables so callers can tune health-check timing without forking the module.",
+      "resource": "google_app_engine_standard_app_version.examplea",
+      "severity": "LOW",
+      "status": "open",
+      "title": "App Engine standard version has no readiness_check / liveness_check configured"
+    },
+    {
+      "confidence": "high",
+      "explanation": "google_service_account.appengine sets account_id and display_name but no description, making its purpose less discoverable during IAM audits.",
+      "file": "example/examplea/module.appengine.tf",
+      "first_seen": "2026-08-02",
+      "fix": "description = \"Service account used to run the App Engine version for the examplea example\"",
+      "fixable": true,
+      "id": "HOLDEN_BP_005",
+      "last_seen": "2026-08-02",
+      "line": 15,
+      "principle": "maintainability",
+      "remediation": "Add description = \"Service account used to run the App Engine version for the examplea example\"",
+      "resource": "google_service_account.appengine",
+      "severity": "INFO",
+      "status": "open",
+      "title": "Service account has no description"
+    }
+  ],
+  "scan_date": "2026-08-02T00:00:00Z",
+  "scan_path": ".",
+  "suggested_policies": [
+    {
+      "rationale": "Service accounts without a description are harder to attribute and audit \u2014 a reviewer scanning IAM bindings months later has no context for why the SA exists. This is a plain not_null check on a first-class attribute and applies to any google_service_account resource.",
+      "yaml": "id: HLD_GCP_XXX  # get via `holden next-id --cloud GCP`\nname: Service accounts should have a description\ncloud: gcp\nprinciple: maintainability\nseverity: INFO\nrationale: |\n  google_service_account resources without a description are hard to attribute\n  during IAM audits months after creation. A short description documenting the\n  SA's purpose costs nothing and materially helps reviewers.\nmessage: |\n  google_service_account is missing a description.\nremediation: |\n  Add a description explaining what the service account is for:\n    resource \"google_service_account\" \"app\" {\n      account_id  = \"app-sa\"\n      description = \"Runs the app-name workload; least-privilege, no broad IAM roles\"\n    }\nresources:\n  google_service_account:\n    path: description\n    not_null: true\n"
+    }
+  ]
+}

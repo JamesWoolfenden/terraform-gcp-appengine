@@ -1,0 +1,53 @@
+id: HLD_GCP_456
+name: GCS buckets and objects using CMEK must grant the GCS service agent key access
+principle: key-management
+severity: HIGH
+rationale: |
+  Setting encryption.default_kms_key_name on a google_storage_bucket, or
+  kms_key_name on a google_storage_bucket_object, only tells GCS which CMEK
+  to use — it doesn't grant access to it. Google requires the GCS service
+  agent (service-PROJECT_NUMBER@gs-project-accounts.iam.gserviceaccount.com)
+  to hold roles/cloudkms.cryptoKeyEncrypterDecrypter on that key before the
+  bucket or object can be created or written to. Without a matching
+  google_kms_crypto_key_iam_member (or _binding) granting that role on the
+  same key, the write fails with a KMS permission error, and nothing on the
+  bucket/object resource itself surfaces the missing prerequisite. HLD_GCP_001
+  and HLD_GCP_427 already require the key to be referenced; this policy
+  requires the companion grant that makes it actually work.
+remediation: |
+  Grant the GCS service agent access to the key referenced:
+
+  ```hcl
+  data "google_project" "current" {}
+
+  resource "google_kms_crypto_key_iam_member" "gcs_cmek" {
+    crypto_key_id = google_kms_crypto_key.example.id
+    role          = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+    member        = "serviceAccount:service-${data.google_project.current.number}@gs-project-accounts.iam.gserviceaccount.com"
+  }
+  ```
+resources:
+  google_storage_bucket:
+    filter:
+      path: encryption.default_kms_key_name
+      not_null: true
+    requires_companion:
+      type: google_kms_crypto_key_iam_member
+      linked_via:
+        from: encryption.default_kms_key_name
+        to: crypto_key_id
+      where:
+        path: role
+        equals: roles/cloudkms.cryptoKeyEncrypterDecrypter
+  google_storage_bucket_object:
+    filter:
+      path: kms_key_name
+      not_null: true
+    requires_companion:
+      type: google_kms_crypto_key_iam_member
+      linked_via:
+        from: kms_key_name
+        to: crypto_key_id
+      where:
+        path: role
+        equals: roles/cloudkms.cryptoKeyEncrypterDecrypter

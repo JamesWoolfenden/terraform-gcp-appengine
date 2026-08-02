@@ -4,7 +4,7 @@ resource "google_app_engine_standard_app_version" "examplea" {
     url_regex = var.app["url_regex"]
     login     = lookup(var.app, "login", "LOGIN_REQUIRED")
     script {
-      script_path = "auto"
+      script_path = lookup(var.app, "script_path", "auto")
     }
   }
 
@@ -18,11 +18,12 @@ resource "google_app_engine_standard_app_version" "examplea" {
     }
   }
 
-  project         = var.project
-  runtime         = var.app["runtime"]
-  service         = var.app["service"]
-  version_id      = var.app["version_id"]
-  service_account = var.service_account
+  project             = var.project
+  runtime             = var.app["runtime"]
+  runtime_api_version = lookup(var.app, "runtime_api_version", null)
+  service             = var.app["service"]
+  version_id          = var.app["version_id"]
+  service_account     = var.service_account
 
   noop_on_destroy = false
 }

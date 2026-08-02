@@ -58,6 +58,7 @@ variable "entrypoint" {
 
 variable "kms_key_name" {
   type        = string
+  sensitive   = true
   description = "The KMS key name for encryption"
   validation {
     condition     = length(var.kms_key_name) > 0

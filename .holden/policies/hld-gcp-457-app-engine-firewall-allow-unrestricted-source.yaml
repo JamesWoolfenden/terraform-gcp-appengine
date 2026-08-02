@@ -1,0 +1,34 @@
+id: HLD_GCP_457
+name: App Engine firewall allow rules must not permit unrestricted source ranges
+principle: network-security
+severity: MEDIUM
+rationale: |
+  google_app_engine_firewall_rule resources with action = "ALLOW" and
+  source_range set to "*" or "0.0.0.0/0" grant every client on the internet
+  access. App Engine already allows all traffic by default when no firewall
+  rules are defined at all, so an explicit unrestricted ALLOW rule adds no
+  access control while making the configuration look deliberately scoped —
+  the same risk pattern as an open security group ingress rule, just for App
+  Engine's own firewall. This check only applies to ALLOW rules: DENY rules
+  legitimately use "*" as the required default catch-all (typically at
+  priority 2147483647) and must not be flagged.
+remediation: |
+  Scope ALLOW rules to a specific CIDR range instead of allowing all traffic:
+
+  ```hcl
+  resource "google_app_engine_firewall_rule" "allow" {
+    action       = "ALLOW"
+    priority     = 1000
+    source_range = "203.0.113.0/24"
+  }
+  ```
+resources:
+  google_app_engine_firewall_rule:
+    if_equals:
+      path: action
+      value: ALLOW
+      then:
+        path: source_range
+        not_one_of:
+          - "*"
+          - "0.0.0.0/0"

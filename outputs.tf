@@ -6,4 +6,5 @@ output "app" {
 output "code" {
   value       = google_storage_bucket_object.code_package
   description = "The code package stored in Cloud Storage"
+  sensitive   = true
 }

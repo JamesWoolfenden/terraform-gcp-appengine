@@ -1,0 +1,108 @@
+{
+  "findings": [
+    {
+      "confidence": "high",
+      "explanation": "Carried forward from the previous ai-findings.json review. The resource now sets service_account = var.service_account and the example wires in a dedicated google_service_account.appengine \u2014 resolved by commit 785525a (\"fix: add explicit service account, handler login, fix KMS rotation and logs bucket\").",
+      "file": "google_app_engine_standard_app_version.myapp.tf",
+      "first_seen": "2026-07-15",
+      "fixable": false,
+      "id": "HOLDEN_AI_001",
+      "last_seen": "2026-08-02",
+      "line": 25,
+      "principle": "identity-and-access",
+      "related_resources": [],
+      "remediation": "N/A \u2014 already fixed.",
+      "resource": "google_app_engine_standard_app_version.examplea",
+      "severity": "HIGH",
+      "status": "fixed",
+      "title": "App Engine standard version has no service_account \u2014 defaults to the App Engine default SA which carries project Editor in older projects"
+    },
+    {
+      "confidence": "high",
+      "explanation": "Carried forward from the previous ai-findings.json review. The handlers block now sets login = lookup(var.app, \"login\", \"LOGIN_REQUIRED\"), defaulting to authenticated access \u2014 resolved by commit 785525a.",
+      "file": "google_app_engine_standard_app_version.myapp.tf",
+      "first_seen": "2026-07-15",
+      "fixable": false,
+      "id": "HOLDEN_AI_002",
+      "last_seen": "2026-08-02",
+      "line": 5,
+      "principle": "network-security",
+      "related_resources": [],
+      "remediation": "N/A \u2014 already fixed.",
+      "resource": "google_app_engine_standard_app_version.examplea",
+      "severity": "MEDIUM",
+      "status": "fixed",
+      "title": "URL handler had no login requirement and no IAP \u2014 application was publicly accessible without authentication"
+    },
+    {
+      "confidence": "medium",
+      "explanation": "Carried forward from the previous ai-findings.json review. rotation_period is now \"7776000s\" (90 days), matching the standard used across the author's other modules \u2014 resolved by commit 785525a.",
+      "file": "example/examplea/module.appengine.tf",
+      "first_seen": "2026-07-15",
+      "fixable": false,
+      "id": "HOLDEN_AI_003",
+      "last_seen": "2026-08-02",
+      "line": 25,
+      "principle": "key-management",
+      "related_resources": [],
+      "remediation": "N/A \u2014 already fixed.",
+      "resource": "google_kms_crypto_key.appengine_key",
+      "severity": "LOW",
+      "status": "fixed",
+      "title": "KMS key rotation_period = 100000s (~28 hours) in example \u2014 far below the standard 90-day minimum, will cause excessive re-encryption"
+    },
+    {
+      "confidence": "high",
+      "explanation": "google_storage_bucket.code and google_storage_bucket.logs both set encryption.default_kms_key_name = var.kms_key_name, and google_storage_bucket_object.code_package sets kms_key_name = var.kms_key_name \u2014 all three resolve to google_kms_crypto_key.appengine_key via the example's module call. Setting these attributes only tells GCS which key to use; it does not grant access. GCP requires the GCS service agent (service-PROJECT_NUMBER@gs-project-accounts.iam.gserviceaccount.com) to hold roles/cloudkms.cryptoKeyEncrypterDecrypter on the key before the bucket or object can actually be created/written \u2014 nowhere in this repo is a google_kms_crypto_key_iam_member/_binding granting that role on this key. As configured, applying this example will fail with a Cloud KMS permission error on the first bucket/object write. Holden's deterministic engine doesn't catch this today, but the identical pattern is already codified for other services (HLD_GCP_448 for Cloud Run CMEK, HLD_GCP_453 for Cloud SQL CMEK) and a GCS-specific version (HLD_GCP_456, in the JamesWoolfenden/holden fork at policies/gcp/storage/bucket-cmek-service-agent-iam.yaml) already exists but is not yet in this project's active policy set (.holden/policies/) nor in the installed holden binary's built-in catalog (925 policies, no HLD_GCP_456) \u2014 so the gap in the actual repo isn't visible in this scan's 0-finding result.",
+      "file": "example/examplea/module.appengine.tf",
+      "first_seen": "2026-08-02",
+      "fix": "data \"google_project\" \"current\" {}\n\nresource \"google_kms_crypto_key_iam_member\" \"gcs_cmek\" {\n  crypto_key_id = google_kms_crypto_key.appengine_key.id\n  role          = \"roles/cloudkms.cryptoKeyEncrypterDecrypter\"\n  member        = \"serviceAccount:service-${data.google_project.current.number}@gs-project-accounts.iam.gserviceaccount.com\"\n}",
+      "fixable": true,
+      "id": "HOLDEN_AI_004",
+      "last_seen": "2026-08-02",
+      "line": 23,
+      "principle": "key-management",
+      "related_resources": [
+        "google_storage_bucket.code",
+        "google_storage_bucket.logs",
+        "google_storage_bucket_object.code_package"
+      ],
+      "remediation": "Add the companion IAM grant in example/examplea/module.appengine.tf:\ndata \"google_project\" \"current\" {}\n\nresource \"google_kms_crypto_key_iam_member\" \"gcs_cmek\" {\n  crypto_key_id = google_kms_crypto_key.appengine_key.id\n  role          = \"roles/cloudkms.cryptoKeyEncrypterDecrypter\"\n  member        = \"serviceAccount:service-${data.google_project.current.number}@gs-project-accounts.iam.gserviceaccount.com\"\n}",
+      "resource": "google_kms_crypto_key.appengine_key",
+      "severity": "HIGH",
+      "status": "fixed",
+      "title": "GCS buckets and objects reference a CMEK, but the GCS service agent is never granted decrypt/encrypt access to that key"
+    },
+    {
+      "confidence": "medium",
+      "explanation": "google_app_engine_firewall_rule.allow (priority 1000) permits var.allowed_source_range, set in examplea.auto.tfvars to \"10.0.0.0/8\" \u2014 a private, non-routable range. google_app_engine_firewall_rule.default_deny (priority 2147483647, the required catch-all) denies source_range \"*\". App Engine firewall rules match the request's apparent public source IP; nothing in this repo configures a Serverless VPC Access connector or internal-only ingress that would make a real client appear to originate from a private range. With no other route to match the allow rule, every genuine internet client falls through to the deny-all rule and the app becomes completely unreachable \u2014 the opposite of the \"Allow traffic from the trusted source range\" comment's intent. This composition (an allow rule whose range can structurally never match combined with a deny-all default) is invisible to a single-resource rule engine.",
+      "file": "example/examplea/google_app_engine_firewall_rule.tf",
+      "first_seen": "2026-08-02",
+      "fixable": false,
+      "id": "HOLDEN_AI_005",
+      "last_seen": "2026-08-02",
+      "line": 5,
+      "principle": "network-security",
+      "related_resources": [
+        "google_app_engine_firewall_rule.default_deny"
+      ],
+      "remediation": "If public access is intended, set allowed_source_range to the actual public CIDR(s) that should reach the app (e.g. a partner's egress IP range or an external load balancer's IP). If internal-only access is intended, wire up a Serverless VPC Access connector / internal ingress path so requests genuinely arrive from the private range being allow-listed \u2014 this repo currently configures neither.",
+      "resource": "google_app_engine_firewall_rule.allow",
+      "severity": "MEDIUM",
+      "status": "open",
+      "title": "App Engine firewall allow-rule uses a private RFC1918 source range, so with the default-deny catch-all every real internet client is blocked",
+      "unresolved_since": "2026-08-02"
+    }
+  ],
+  "scan_date": "2026-08-02T00:00:00Z",
+  "scan_path": ".",
+  "suggested_policies": [
+    {
+      "implementation_note": "Written as HLD_GCP_457 (next-id returned a stale/duplicate 455 \u2014 HLD_GCP_455 was already claimed by policies/gcp/scheduler/scheduler-job-retry-count.yaml in the local working tree) in E:\\Code\\holden on branch policy/hld-gcp-457-app-engine-firewall-allow (policy YAML + tests/fixtures/gcp-app-engine-firewall-unrestricted-allow/main.tf + internal/policy/gcp_app_engine_firewall_unrestricted_allow_test.go), committed locally, not pushed/PR'd per user instruction. Also imported into this project's .holden/policies/ and confirmed passing (10.0.0.0/8 is a private range, not the literal wildcard this policy scopes to).",
+      "rationale": "google_app_engine_firewall_rule has zero existing holden policy coverage (coverage_by_type is empty for this resource type). App Engine allows all traffic by default when no firewall rules exist, so an ALLOW rule with an unrestricted source_range (\"*\" or \"0.0.0.0/0\") provides no access control while making the configuration look deliberately restricted \u2014 the same risk pattern as an open security group ingress rule, just for App Engine's own firewall. This does not apply to DENY rules, which legitimately use \"*\" as the required catch-all default (priority 2147483647).",
+      "status": "implemented",
+      "yaml": "id: HLD_GCP_457\nname: App Engine firewall allow rules must not permit unrestricted source ranges\nprinciple: network-security\nseverity: MEDIUM\nrationale: |\n  google_app_engine_firewall_rule resources with action = \"ALLOW\" and\n  source_range set to \"*\" or \"0.0.0.0/0\" grant every client on the internet\n  access. App Engine already allows all traffic by default when no firewall\n  rules are defined at all, so an explicit unrestricted ALLOW rule adds no\n  protection while making the configuration appear intentionally scoped. This\n  check only applies to ALLOW rules \u2014 DENY rules legitimately use \"*\" as the\n  required default catch-all (typically at priority 2147483647).\nremediation: |\n  Scope ALLOW rules to a specific CIDR range instead of allowing all traffic:\n  ```hcl\n  resource \"google_app_engine_firewall_rule\" \"allow\" {\n    action       = \"ALLOW\"\n    priority     = 1000\n    source_range = \"203.0.113.0/24\"\n  }\n  ```\nresources:\n  google_app_engine_firewall_rule:\n    if_equals:\n      path: action\n      value: ALLOW\n      then:\n        path: source_range\n        not_one_of:\n          - \"*\"\n          - \"0.0.0.0/0\"\n"
+    }
+  ],
+  "suggested_suppressions": []
+}
