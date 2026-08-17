@@ -1,4 +1,3 @@
-project = "pike"
 app = {
   runtime             = "python37"
   service             = "hello"

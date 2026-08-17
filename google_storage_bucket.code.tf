@@ -1,5 +1,4 @@
 resource "google_storage_bucket" "code" {
-  #checkov:skip= CKV_GCP_62
   name                        = local.bucket_name
   location                    = var.location
   uniform_bucket_level_access = true
@@ -37,6 +36,8 @@ resource "google_storage_bucket" "code" {
     log_bucket        = google_storage_bucket.logs.name
     log_object_prefix = "${local.bucket_name}-logs/"
   }
+
+  depends_on = [google_kms_crypto_key_iam_member.gcs_cmek]
 }
 
 resource "google_storage_bucket_object" "code_package" {
@@ -44,13 +45,14 @@ resource "google_storage_bucket_object" "code_package" {
   bucket       = google_storage_bucket.code.name
   source       = var.sourcezip
   kms_key_name = var.kms_key_name
+
+  depends_on = [google_kms_crypto_key_iam_member.gcs_cmek]
 }
 
 
 # holden:ignore:HLD_GCP_003: its a log bucket
 # holden:ignore:HLD_GCP_385: its a log bucket
 resource "google_storage_bucket" "logs" {
-  #checkov:skip=CKV_GCP_62:logging buckets do not log themselves
   name                        = "${local.bucket_name}-logs"
   location                    = var.location
   uniform_bucket_level_access = true
@@ -74,4 +76,6 @@ resource "google_storage_bucket" "logs" {
   encryption {
     default_kms_key_name = var.kms_key_name
   }
+
+  depends_on = [google_kms_crypto_key_iam_member.gcs_cmek]
 }

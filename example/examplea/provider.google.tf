@@ -6,3 +6,7 @@ provider "google" {
     module       = "appengine"
   }
 }
+
+# Falls back to the caller's ambient gcloud/ADC default project when
+# var.project is left unset, so this example runs without editing tfvars.
+data "google_client_config" "current" {}

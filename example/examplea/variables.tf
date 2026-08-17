@@ -1,8 +1,9 @@
 variable "project" {
   type        = string
-  description = "The GCP project ID"
+  default     = null
+  description = "The GCP project ID. Defaults to the caller's ambient gcloud/ADC project when unset."
   validation {
-    condition     = length(var.project) > 0
+    condition     = var.project == null || length(var.project) > 0
     error_message = "Project ID must not be empty."
   }
 }

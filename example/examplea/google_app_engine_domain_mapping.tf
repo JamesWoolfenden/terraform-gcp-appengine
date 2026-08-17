@@ -1,5 +1,5 @@
 resource "google_app_engine_domain_mapping" "examplea" {
-  project     = var.project
+  project     = local.project
   domain_name = var.domain_name
 
   ssl_settings {

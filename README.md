@@ -5,8 +5,6 @@
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/JamesWoolfenden/terraform-gcp-appengine.svg?label=latest)](https://github.com/JamesWoolfenden/terraform-gcp-appengine/releases/latest)
 ![Terraform Version](https://img.shields.io/badge/tf-%3E%3D0.14.0-blue.svg)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
-[![checkov](https://img.shields.io/badge/checkov-verified-brightgreen)](https://www.checkov.io/)
-[![Infrastructure Tests](https://www.bridgecrew.cloud/badges/github/jameswoolfenden/terraform-gcp-appengine/general)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=JamesWoolfenden%2Fterraform-gcp-appengine&benchmark=INFRASTRUCTURE+SECURITY)
 
 A working AppEngine module with example.
 
@@ -45,9 +43,11 @@ No modules.
 | Name | Type |
 | ---- | ---- |
 | [google_app_engine_standard_app_version.examplea](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/app_engine_standard_app_version) | resource |
+| [google_kms_crypto_key_iam_member.gcs_cmek](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/kms_crypto_key_iam_member) | resource |
 | [google_storage_bucket.code](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket) | resource |
 | [google_storage_bucket.logs](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket) | resource |
 | [google_storage_bucket_object.code_package](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket_object) | resource |
+| [google_storage_project_service_account.gcs_account](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/storage_project_service_account) | data source |
 
 ## Inputs
 
@@ -84,6 +84,9 @@ resource "google_project_iam_custom_role" "terraform_pike" {
   title       = "terraform_pike"
   description = "A user with least privileges"
   permissions = [
+    "cloudkms.cryptoKeys.getIamPolicy",
+    "cloudkms.cryptoKeys.setIamPolicy",
+    "resourcemanager.projects.get",
     "storage.buckets.create",
     "storage.buckets.delete",
     "storage.buckets.get",
@@ -102,6 +105,7 @@ resource "google_project_iam_custom_role" "terraform_pike_plan" {
   title       = "terraform_pike_plan"
   description = "A user with least privileges"
   permissions = [
+    "cloudkms.cryptoKeys.getIamPolicy",
     "storage.buckets.get",
     "storage.objects.list"
   ]
