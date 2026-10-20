@@ -1,5 +1,3 @@
-default_language_version:
-    python: python3.11
 repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c # v6.0.0
@@ -27,7 +25,7 @@ repos:
         - xml
         exclude: binary|\.bin$
 -   repo: https://github.com/jameswoolfenden/pre-commit-shell
-    rev: 062f0b028ae65827e04f91c1e6738cfcbe9b337f # v1.0.6
+    rev: cb16822cc2c347707ea076fd4ede0d483fbbab47 # v1.0.7
     hooks:
     -   id: shell-lint
         exclude: template|\.template$
@@ -39,16 +37,14 @@ repos:
     rev: c5bdf92051a9e574d62152d81a3bd98a71816dd3 # v0.1.62
     hooks:
     -   id: terraform-fmt
-        language_version: python3.11
     -   id: tf2docs
-        language_version: python3.11
 -   repo: local
     hooks:
     -   id: holden
         name: holden
         description: Scan Terraform (and CI/CD config) for policy violations (via locally-installed CLI)
         language: system
-        entry: holden scan .
+        entry: holden scan
         pass_filenames: false
         types: [terraform]
         # pre-push, not pre-commit: a system hook resolves holden from $PATH,
@@ -61,7 +57,7 @@ repos:
         # Requires `pre-commit install --hook-type pre-push` once per clone.
         stages: [pre-push]
 -   repo: https://github.com/jameswoolfenden/pike
-    rev: a38ea683d195b2a3a3dc08d233dc231f1db58f73 # v1.0.12
+    rev: fc5d8825c64a6c87c33d9175d4739df304f3eed5 # v1.0.13
     hooks:
     -   id: pike-docs-go
         args: ["readme","-d", ".", "-i"]
@@ -70,7 +66,7 @@ repos:
     hooks:
       - id: actionlint
 -   repo: https://github.com/jameswoolfenden/ghat
-    rev: 08381491f793709efce1b6cdc117001429444901 # v0.1.50
+    rev: 18bffde9fbbd242d04da9a640dcc510bfdfff41f # v0.1.51
     hooks:
     -   id: ghat-go
     -   id: ghat-go-sift

@@ -84,6 +84,10 @@ resource "google_project_iam_custom_role" "terraform_pike" {
   title       = "terraform_pike"
   description = "A user with least privileges"
   permissions = [
+    "appengine.versions.create",
+    "appengine.versions.delete",
+    "appengine.versions.get",
+    "appengine.versions.update",
     "cloudkms.cryptoKeys.getIamPolicy",
     "cloudkms.cryptoKeys.setIamPolicy",
     "resourcemanager.projects.get",
@@ -105,7 +109,9 @@ resource "google_project_iam_custom_role" "terraform_pike_plan" {
   title       = "terraform_pike_plan"
   description = "A user with least privileges"
   permissions = [
+    "appengine.versions.get",
     "cloudkms.cryptoKeys.getIamPolicy",
+    "resourcemanager.projects.get",
     "storage.buckets.get",
     "storage.objects.list"
   ]
